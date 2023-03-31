@@ -1,0 +1,74 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- <div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+
+            <form action="" method="POST">
+                {% csrf_token %}
+               
+               
+
+                {{form}}
+                    <hr>
+
+           
+
+                <input class="btn btn-danger" type="submit" name="Submit">
+            </form>
+
+        </div>
+    </div>
+</div> -->
+
+<div id="content" class="content">
+    <div class="small-container col-md-6 ">
+      <h2>Staff Information</h2>
+      <form enctype="multipart/form-data" method="post" class="form">
+        {{ form.non_field_errors }}
+        <p class="field-container">
+          <label for="{{ form.employee_id.id_for_label }}">Employee ID</label>
+          {{ form.employee_id }}
+          {{ form.employee_id.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.name.id_for_label }}">Name</label>
+          {{ form.name }}
+          {{ form.name.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.department.id_for_label }}">Department</label>
+          {{ form.department }}
+          {{ form.department.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.description.id_for_label }}">Description</label>
+          {{ form.description }}
+          {{ form.description.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.email.id_for_label }}">Email</label>
+          {{ form.email }}
+          {{ form.email.errors}}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.status.id_for_label }}">Status</label>
+          {{ form.status }}
+          {{ form.status.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.position.id_for_label }}">Position</label>
+            {{ form.position }}
+            {{ form.position.errors }}
+          </p>
+        <p> <input class="btn btn-danger" type="submit" name="Submit"></p>
+        {% csrf_token %}
+      </form>
+    </div>
+  </div>
+
+
+{% endblock %}

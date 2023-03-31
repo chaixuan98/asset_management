@@ -1,0 +1,58 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5 class="h3 mb-2 text-gray-800" >Staffs <a class="btn btn-primary btn-sm btn-block" style="width:auto; float:right;" href="{% url 'create_staff' %}">
+                <i class="fa fa-plus btn-sm " style="float:left;"></i> Create Staff </a>  
+        </div>
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Position</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for i in staffs %}
+                                    <tr>
+
+                                        <td>{{i.employee_id}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.department}}</td>
+                                        <td>{{i.position}}</td>
+                                        <td>{{i.email}}</td>
+                                        <td>{{i.status}}</td>
+                                        <td><a class="btn btn-info btn-circle btn-sm" href="{% url 'staff' i.employee_id %}"><i class="fas fa-info-circle"></i></a></td>
+
+                                    </tr>
+                                    
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

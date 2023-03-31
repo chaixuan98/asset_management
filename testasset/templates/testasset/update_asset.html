@@ -1,0 +1,87 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% load qr_code %}
+{% block content %}
+
+<style>
+
+  
+  #card-qr {
+      width: 9rem;
+      height: 9rem;
+  }
+</style>
+
+
+<div id="content" class="content">
+    <div class="small-container col-md-6">
+        <div class="card-body">
+            <h5 class="h3 mb-2 text-gray-800" >Assets Information </h5>    
+        </div> 
+
+        <img src="{% qr_url_from_text asset.asset_no image_format='png' %}" id="card-qr" alt="">
+        <div class="text-gray-800"><b>{{asset.asset_no}}</b></div>
+        
+      <form enctype="multipart/form-data" method="post" class="form">
+        {{ form.non_field_errors }}
+        <p class="field-container">
+          <label for="{{ form.asset_no.id_for_label }}">Asset Code</label>
+          {{ form.asset_no }}
+          {{ form.asset_no.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.name.id_for_label }}">PC Name</label>
+          {{ form.name }}
+          {{ form.name.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.brand.id_for_label }}">Brand</label>
+          {{ form.brand }}
+          {{ form.brand.errors }}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.description.id_for_label }}">Description</label>
+          {{ form.description }}
+          {{ form.description.errors}}
+        </p>
+        <p class="field-container">
+          <label for="{{ form.location.id_for_label }}">Location</label>
+          {{ form.location }}
+          {{ form.location.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.status.id_for_label }}">Status</label>
+            {{ form.status }}
+            {{ form.status.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.serial_no.id_for_label }}">Serial No</label>
+            {{ form.serial_no }}
+            {{ form.serial_no.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.warranty_start.id_for_label }}">Warranty Start</label>          
+            {{ form.warranty_start }}
+            {{ form.warranty_start.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.warranty_end.id_for_label }}">Warranty End</label>
+            {{ form.warranty_end }}
+            {{ form.warranty_end.errors }}
+        </p>
+        <p class="field-container">
+            <label for="{{ form.categories.id_for_label }}">Categories</label>
+            {{ form.categories }}
+            {{ form.categories.errors }}
+        </p>
+        <p> <input class="btn btn-danger" type="submit" name="Update" value="Update"></p>
+        {% csrf_token %}
+      </form>
+
+     
+    </div>
+    </div>
+
+
+
+{% endblock %}
