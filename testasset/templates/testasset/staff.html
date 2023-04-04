@@ -10,7 +10,7 @@
             <h5>Staff:</h5>
             <hr>
             <a class="btn btn-outline-info btn-sm btn-block" href="{% url 'update_staff' staff.employee_id %}">Update Staff</a>
-            <a class="btn btn-outline-info btn-sm btn-block" href="{% url 'assign_asset' staff.employee_id %}">Assign Asset</a>
+            <a class="btn btn-outline-info btn-sm btn-block" href="">Assign Asset</a>
         </div>
     </div>
 
@@ -28,7 +28,7 @@
         <div class="card card-body">
             <h5>Total Assets</h5>
             <hr>
-            <h1 style="text-align: center; padding: 10px">{{order_count}}</h1>
+            <h1 style="text-align: center; padding: 10px">{{assets_count}}</h1>
         </div>
     </div>
 </div>
@@ -46,24 +46,21 @@
                                 <tr>
                                     <th>Asset</th>
                                     <th>Category</th>
-                                    <th>Date Assigned</th>
                                     <th>Status</th>
                                     <th></th>
-                                    <th></th>
+                             
                                     
                                 </tr>
                             </thead>
                             <tbody>
 
-                                {% for order in orders %}
+                                {% for asset in assets %}
 
                                 <tr>
-                                    <td>{{order.asset}}</td>
-                                    <td>{{order.asset.categories}}</td>
-                                    <td>{{order.date_assigned}}</td>
-                                    <td>{{order.status}}</td>
-                                    <td><a class="btn btn-info btn-circle btn-sm" href="{% url 'update_assign_asset' order.id  %}"><i class="fas fa-info-circle"></i></a></td>
-                                    <td><a class="bbtn btn-danger btn-circle btn-sm" href="{% url 'delete_assign_asset' order.id %}"><i class="fas fa-trash"></i></a></td>
+                                    <td>{{asset.asset_no}}</td>
+                                    <td>{{asset.categories}}</td>
+                                    <td>{{asset.status}}</td>
+                                    <td><a class="btn btn-info btn-circle btn-sm" href="{% url 'update_asset' asset.asset_no %}"><i class="fas fa-info-circle"></i></a></td>
                                 </tr>
 
 

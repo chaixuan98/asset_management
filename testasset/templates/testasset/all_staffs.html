@@ -7,8 +7,12 @@
 <div class="row">
     <div class="col-md">
         <div class="card card-body">
-            <h5 class="h3 mb-2 text-gray-800" >Staffs <a class="btn btn-primary btn-sm btn-block" style="width:auto; float:right;" href="{% url 'create_staff' %}">
-                <i class="fa fa-plus btn-sm " style="float:left;"></i> Create Staff </a>  
+
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Staffs</h1>
+                <a href="{% url 'create_staff' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fa fa-plus fa-sm "></i> Create Staff</a>
+            </div>
         </div>
         <div class="container-fluid">
             <div class="card shadow mb-4">

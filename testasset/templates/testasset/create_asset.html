@@ -59,6 +59,11 @@
             {{ form.categories }}
             {{ form.categories.errors }}
         </p>
+        <p class="field-container">
+          <label for="{{ form.staff.id_for_label }}">Staff</label>
+          {{ form.staff }}
+          {{ form.staff.errors }}
+        </p>
         <p> <input class="btn btn-danger" type="submit" name="Submit"></p>
         {% csrf_token %}
       </form>

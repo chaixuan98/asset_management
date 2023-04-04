@@ -2,9 +2,9 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Staff, Asset, Order, Categories
+from .models import Staff, Asset, Categories
 
 admin.site.register(Staff)
 admin.site.register(Categories)
 admin.site.register(Asset)
-admin.site.register(Order)
+# admin.site.register(Order)

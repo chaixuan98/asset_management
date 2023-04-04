@@ -9,7 +9,7 @@
 
             <p>Are you sure want to delete "{{item}}" ?</p>
 
-            <form action="{% url 'delete_asset' item.id%}" method="POST">
+            <form action="{% url 'delete_asset' item.asset_no%}" method="POST">
 
                 {% csrf_token %}
                 <a class="btn btn-warning" href="{% url 'assets' %}">Cancel</a>

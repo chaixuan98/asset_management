@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
-from .forms import OrderForm, StaffForm, AssetForm, CreateUserForm
+from .forms import StaffForm, AssetForm, CreateUserForm
 from django.contrib import messages
 from qrcode import *
 from django.contrib.auth.forms import UserCreationForm
@@ -69,7 +69,7 @@ def logoutPage(request):
 
 @login_required(login_url='login')
 def home(request):
-    orders = Order.objects.all()
+    # orders = Order.objects.all()
     staffs = Staff.objects.all()
     assets = Asset.objects.all()
     categories = Categories.objects.all()
@@ -85,7 +85,7 @@ def home(request):
     else:
         assets = Asset.objects.all()
 
-    context = {'orders':orders, 'staffs': staffs, 'assets':assets, 'categories':categories, }
+    context = {'staffs': staffs, 'assets':assets, 'categories':categories, }
 
     return render(request, 'testasset/main.html', context)
 
@@ -171,6 +171,7 @@ def updateAsset(request,pk):
         form = AssetForm(request.POST, instance=asset)
         if form.is_valid():
             form.save()
+
             return redirect('/assets/')
         
     context = {'form':form, 'categories':categories, 'asset':asset}
@@ -180,7 +181,7 @@ def updateAsset(request,pk):
 @admin_only
 def deleteAsset(request, pk):
 
-    asset = Asset.objects.get(id=pk)
+    asset = Asset.objects.get(asset_no=pk)
     
     if request.method == 'POST':
         asset.delete()
@@ -205,11 +206,13 @@ def allStaffs(request):
 def staff(request, pk):
     staff =  Staff.objects.get(employee_id=pk)
     categories = Categories.objects.all()
+    assets = staff.asset_set.all()
+    assets_count = assets.count()
 
-    orders = staff.order_set.all()
-    order_count = orders.count()
+    # orders = staff.order_set.all()
+    # order_count = orders.count()
 
-    context = {'staff':staff, 'orders':orders, 'order_count': order_count, 'categories':categories,}
+    context = {'staff':staff, 'categories':categories, 'assets':assets, 'assets_count':assets_count}
 
     return render(request, 'testasset/staff.html', context)
 
@@ -253,50 +256,50 @@ def updateStaff(request,pk):
     context = {'form':form, 'categories':categories,}
     return render(request, 'testasset/create_staff.html', context)
 
-@login_required(login_url='login')
-@admin_only
-def assignAsset(request, pk):
-    OrderFormSet = inlineformset_factory(Staff, Order, fields=('asset', 'status'),extra=3)
-    staff = Staff.objects.get(employee_id=pk)
-    formset =  OrderFormSet(queryset=Order.objects.none(),instance=staff) #if queryset will no display exist asset, extra 3
-    # form =  OrderForm(initial= {'customer':customer})
+# @login_required(login_url='login')
+# @admin_only
+# def assignAsset(request, pk):
+#     OrderFormSet = inlineformset_factory(Staff, Order, fields=('asset', 'status'),extra=3)
+#     staff = Staff.objects.get(employee_id=pk)
+#     formset =  OrderFormSet(queryset=Order.objects.none(),instance=staff) #if queryset will no display exist asset, extra 3
+#     # form =  OrderForm(initial= {'customer':customer})
 
-    if request.method == 'POST':
-        # print('Printing POST:', request.POST)
-        # form = OrderForm(request.POST)
-        formset =  OrderFormSet(request.POST, instance=staff)
-        if formset.is_valid():
-            formset.save()
-            return redirect('all_staffs')
+#     if request.method == 'POST':
+#         # print('Printing POST:', request.POST)
+#         # form = OrderForm(request.POST)
+#         formset =  OrderFormSet(request.POST, instance=staff)
+#         if formset.is_valid():
+#             formset.save()
+#             return redirect('all_staffs')
 
-    context = {'formset':formset}
-    return render(request, 'testasset/asset_assign_form.html', context)
+#     context = {'formset':formset}
+#     return render(request, 'testasset/asset_assign_form.html', context)
 
-@login_required(login_url='login')
-@admin_only
-def updateAssignAsset(request,pk):
+# @login_required(login_url='login')
+# @admin_only
+# def updateAssignAsset(request,pk):
 
-    order = Order.objects.get(id=pk)
-    form = OrderForm(instance=order)
+#     order = Order.objects.get(id=pk)
+#     form = OrderForm(instance=order)
 
-    if request.method == 'POST':
-        form = OrderForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            return redirect('all_staffs')
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST, instance=order)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('all_staffs')
         
-    context = {'form':form}
-    return render(request, 'testasset/update_assign_asset.html', context)
+#     context = {'form':form}
+#     return render(request, 'testasset/update_assign_asset.html', context)
 
-@login_required(login_url='login')   
-@admin_only
-def deleteAssignAsset(request, pk):
+# @login_required(login_url='login')   
+# @admin_only
+# def deleteAssignAsset(request, pk):
 
-    order = Order.objects.get(id=pk)
+#     order = Order.objects.get(id=pk)
     
-    if request.method == 'POST':
-        order.delete()
-        return redirect('all_staffs')
+#     if request.method == 'POST':
+#         order.delete()
+#         return redirect('all_staffs')
 
-    context = {'item':order}
-    return render(request, 'testasset/delete_asset_assign.html', context)
+#     context = {'item':order}
+#     return render(request, 'testasset/delete_asset_assign.html', context)

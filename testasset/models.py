@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 # Create your models here.
@@ -18,7 +19,7 @@ class Staff(models.Model):
             ('Manager', 'Manager'), ('MD', 'MD'))                         
 
     employee_id = models.CharField(max_length=10, null=True)
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True )
     department =  models.CharField(max_length=200, null=True, choices= DEPARTMENT)
     description = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
@@ -65,21 +66,23 @@ class Asset(models.Model):
     warranty_end = models.DateField(null=True) 
 
     categories = models.ForeignKey(Categories, null=True, on_delete = models.CASCADE)
+    staff = models.ForeignKey(Staff, default="Keep Server Room", null=True, on_delete= models.SET_NULL)
+       
 
     def __str__(self):
         return self.asset_no
 
 
-class Order(models.Model):
-    STATUS = (('In Use', 'In Use'),
-                ('Vacant', 'Vacant'),
-                ('Disposed', 'Disposed'),
-                ('Borrowed', 'Borrowed'),)
+# class Order(models.Model):
+#     STATUS = (('In Use', 'In Use'),
+#                 ('Vacant', 'Vacant'),
+#                 ('Disposed', 'Disposed'),
+#                 ('Borrowed', 'Borrowed'),)
 
-    staff = models.ForeignKey(Staff, null=True, on_delete= models.SET_NULL)
-    asset = models.ForeignKey(Asset, null=True, on_delete= models.SET_NULL)
-    date_assigned = models.DateField(null=True)      
-    status = models.CharField(max_length=200, null=True, choices= STATUS)
+#     staff = models.ForeignKey(Staff, null=True, on_delete= models.SET_NULL)
+#     asset = models.ForeignKey(Asset, null=True, on_delete= models.SET_NULL)
+#     date_assigned = models.DateField(default=datetime.date.today)      
+#     status = models.CharField(max_length=200, null=True, choices= STATUS)
 
-    def __str__(self):
-        return self.asset.asset_no
+#     def __str__(self):
+#         return self.asset.asset_no

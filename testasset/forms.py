@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Order, Staff, Asset
+from .models import  Staff, Asset
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -10,10 +10,10 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-class OrderForm(ModelForm):
-    class Meta:
-        model = Order
-        fields = '__all__'
+# class OrderForm(ModelForm):
+#     class Meta:
+#         model = Order
+#         fields = '__all__'
 
 class StaffForm(ModelForm):
     class Meta:
