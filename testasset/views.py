@@ -15,6 +15,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
+from tablib import Dataset
+from .resources import StaffResource
+
+
+
 # Create your views here.
 
 @unauthenticated_user
@@ -87,7 +92,7 @@ def home(request):
 
     context = {'staffs': staffs, 'assets':assets, 'categories':categories, }
 
-    return render(request, 'testasset/main.html', context)
+    return render(request, 'testasset/dashboard.html', context)
 
 @login_required(login_url='login')
 @admin_only
@@ -231,8 +236,7 @@ def createStaff(request):
             # new_item = form.save(commit=False)
             # new_item.owner = request.user
             form.save()
-            HttpResponse("Staff has been added successfully")
-            messages.success(request, 'Sucessfully added staff.')
+            messages.success(request, 'Add staff sucessfully.')
             return redirect('/all_staffs')
     else:
             form = StaffForm()
@@ -255,6 +259,22 @@ def updateStaff(request,pk):
         
     context = {'form':form, 'categories':categories,}
     return render(request, 'testasset/create_staff.html', context)
+
+@login_required(login_url='login')  
+@admin_only
+def importExcelStaff(request):
+    if request.method == 'POST':
+        staff_resource =StaffResource()
+        dataset = Dataset()
+        new_staffs = request.FILES['my_file']
+        data_imported = dataset.load(new_staffs.read())
+        result = staff_resource.import_data(dataset,dry_run=True, raise_errors=True)
+       
+        if not result.has_errors():
+            staff_resource.import_data(dataset,dry_run=False)
+        
+        return redirect('/all_staffs')   
+    return render(request, 'testasset/import_staff.html')
 
 # @login_required(login_url='login')
 # @admin_only

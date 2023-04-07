@@ -21,6 +21,7 @@ urlpatterns = [
     path('create_staff/', views.createStaff, name='create_staff'),
     path('update_staff/<str:pk>', views.updateStaff, name='update_staff'),
     path('staff/<str:pk>', views.staff, name='staff'),
+    path('import_staff/', views.importExcelStaff, name='import_staff'),
 
     # path('assign_asset/<str:pk>', views.assignAsset, name='assign_asset'),
     # path('update_assign_asset/<str:pk>', views.updateAssignAsset, name='update_assign_asset'),

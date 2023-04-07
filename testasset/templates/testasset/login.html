@@ -27,6 +27,14 @@
                   <div class="login-right-wrap text-center">
                      <h1>Login</h1>
                      <p class="account-subtitle">Access to our dashboard</p>
+                     {% for message in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                           {{message}}
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                           </button>
+                        </div>
+                      {% endfor %}
                      <form  method="POST" action="">
                            {% csrf_token %}
                            <!-- <div class="input-group mb-2">
@@ -51,9 +59,9 @@
                            <button class="btn btn-primary btn-block" type="submit">Login</button>
                         </div>
                      </form>
-                     {% for message in messages %}
+                     <!-- {% for message in messages %}
                            <p id="login_message">{{message}}</p>
-                     {% endfor %}
+                     {% endfor %} -->
                      <div class="text-center forgotpass"><a href="forgot-password.html">Forgot Password?</a></div>
                   
                      <div class="text-center dont-have">Don’t have an account? <a href="{% url 'register' %}">Register</a></div>

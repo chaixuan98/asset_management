@@ -10,15 +10,15 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-# class OrderForm(ModelForm):
-#     class Meta:
-#         model = Order
-#         fields = '__all__'
 
 class StaffForm(ModelForm):
     class Meta:
         model = Staff
         fields = '__all__'
+        widgets = {
+            'joining_date': forms.DateInput(
+                attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd'}),
+        }
 
 class AssetForm(forms.ModelForm):
     class Meta:

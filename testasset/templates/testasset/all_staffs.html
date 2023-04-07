@@ -11,7 +11,13 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Staffs</h1>
                 <a href="{% url 'create_staff' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                        class="fa fa-plus fa-sm "></i> Create Staff</a>
+                        class="fa fa-plus fa-sm "></i> Add Staffs</a>
+                  
+            </div>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <a href="{% url 'import_staff' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fa fas fa-file-import fa-sm "></i> Import from Excel</a>
+                  
             </div>
         </div>
         <div class="container-fluid">
@@ -22,9 +28,10 @@
                             <thead>
                                 <tr>
                                     <th>Employee ID</th>
-                                    <th>Name</th>
+                                    <th>Name</th>                                
                                     <th>Department</th>
                                     <th>Position</th>
+                                    <th>Description</th>
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th></th>
@@ -37,9 +44,10 @@
                                     <tr>
 
                                         <td>{{i.employee_id}}</td>
-                                        <td>{{i.name}}</td>
+                                        <td>{{i.name}}</td>                            
                                         <td>{{i.department}}</td>
                                         <td>{{i.position}}</td>
+                                        <td>{{i.description}}</td>
                                         <td>{{i.email}}</td>
                                         <td>{{i.status}}</td>
                                         <td><a class="btn btn-info btn-circle btn-sm" href="{% url 'staff' i.employee_id %}"><i class="fas fa-info-circle"></i></a></td>

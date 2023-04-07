@@ -1,9 +1,12 @@
-import datetime
 from django.db import models
 
 # Create your models here.
 
 class Staff(models.Model):
+    
+    GENDER = (('Male', 'Male'),
+            ('Female', 'Female'),('Others', 'Others'),)
+    
     DEPARTMENT = (('ACC & Finance', 'ACC & Finance'),
                 ('Admin', 'Admin'),
                 ('Collection', 'Collection'),
@@ -18,18 +21,27 @@ class Staff(models.Model):
             ('Senior Executive', 'Senior Executive'), ('Team Lead', 'Team Lead'),('A.Manager', 'A.Manager'),
             ('Manager', 'Manager'), ('MD', 'MD'))                         
 
-    employee_id = models.CharField(max_length=10, null=True)
+    employee_id = models.CharField(max_length=10, null=True )
     name = models.CharField(max_length=200, null=True )
-    department =  models.CharField(max_length=200, null=True, choices= DEPARTMENT)
-    description = models.CharField(max_length=200, null=True)
+    gender =  models.CharField(max_length=200, null=True, choices= GENDER)
+    joining_date = models.DateField(null=True)
     email = models.CharField(max_length=200, null=True)
-    status = models.CharField(max_length=200, null=True, choices= STATUS)
+    department =  models.CharField(max_length=200, null=True, choices= DEPARTMENT)
     position = models.CharField(max_length=200, null=True, choices= POSITION)
-    date_created = models.DateField(auto_now_add=True, null=True)
-
+    description = models.CharField(max_length=200, null=True)
+    status = models.CharField(max_length=200, null=True, choices= STATUS, default=STATUS[0][0])
 
     def __str__(self):
         return self.employee_id
+    
+    
+# class StaffResource(resources.ModelResource):
+
+#     class Meta:
+#         model = Staff
+#         import_id_fields = '__all__'
+#         # skip_unchanged = True
+#         # use_bulk = True
 
 class Categories(models.Model):
         
@@ -37,6 +49,7 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class Asset(models.Model):
 #     CATEGORY = (('PC', 'PC'),
@@ -55,18 +68,18 @@ class Asset(models.Model):
             ('PG', 'PG'),('IPH', 'IPH'),('SBN', 'SBN'),('MLK', 'MLK'),('BP', 'BP'),('JB', 'JB'),
             ('KT', 'KT'),('Sabah', 'Sabah'),('SRK', 'SRK'),)            
 
-    asset_no = models.CharField(max_length=200, null=True)
+    asset_no = models.CharField(max_length=200 )
     name = models.CharField(max_length=200, null=True)
     brand = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=200, null=True, choices= LOCATION)
-    status = models.CharField(max_length=200, null=True, choices= STATUS)
-    serial_no = models.CharField(max_length=200, null=True)
+    status = models.CharField(max_length=200, null=True, choices= STATUS, default=STATUS[1][1])
+    serial_no = models.CharField(max_length=200)
     warranty_start = models.DateField(null=True)     
-    warranty_end = models.DateField(null=True) 
+    warranty_end = models.DateField(null=True)
 
     categories = models.ForeignKey(Categories, null=True, on_delete = models.CASCADE)
-    staff = models.ForeignKey(Staff, default="Keep Server Room", null=True, on_delete= models.SET_NULL)
+    staff = models.ForeignKey(Staff, null=True, on_delete= models.SET_NULL)
        
 
     def __str__(self):

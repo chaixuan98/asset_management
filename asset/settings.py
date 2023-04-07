@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'testasset',
     'django_filters',
     'qr_code',
+    'widget_tweaks',
+    'import_export',
 ]
 
 MIDDLEWARE = [
