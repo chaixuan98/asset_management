@@ -43,7 +43,10 @@ INSTALLED_APPS = [
     'qr_code',
     'widget_tweaks',
     'import_export',
+   
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,10 +71,25 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
 ]
+
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'djangobower.finders.BowerFinder',
+
+# ]
+
+
+# BOWER_INSTALLED_APPS = [
+#     'jquery',
+#     'jquery-ui',
+#     'bootstrap',
+# ]
 
 WSGI_APPLICATION = 'asset.wsgi.application'
 
@@ -121,6 +139,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
+
 STATIC_URL = 'static/'
 
 MEDIA_URL = 'images/'
@@ -130,6 +150,10 @@ STATICFILES_DIRS = [
     ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

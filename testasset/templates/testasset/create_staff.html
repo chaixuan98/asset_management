@@ -94,6 +94,20 @@
                 </div>
                 <div class="col-12 col-sm-6">
                   <div class="form-group">
+                    <label for="{{ form.position.id_for_label }}">Location</label>
+                    {% render_field form.location class="form-control" %}
+                    {{ form.location.errors }}
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="{{ form.position.id_for_label }}">Printer PW</label>
+                    {% render_field form.printer_pw class="form-control" %}
+                    {{ form.printer_pw.errors }}
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
                     <label for="{{ form.status.id_for_label }}">Status</label>
                     {% render_field form.status class="form-control" %}
                     {{ form.status.errors }}

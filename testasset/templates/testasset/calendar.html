@@ -1,0 +1,56 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% block content %}
+
+<!-- 
+<div class="clearfix">
+    <a class="btn btn-info left" href="{% url 'calendar' %}?{{ prev_month }}"> Previous Month </a>
+	<a class="btn btn-info right" href="{% url 'calendar' %}?{{ next_month }}"> Next Month </a>
+    <a class="btn btn-info right" href="{% url 'event_new' %}"> New Event </a>
+  </div>
+    {{ calendar }} -->
+            <!-- {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %} -->
+
+
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+
+            <div class="align-items-center justify-content-between mb-2">
+                <h1 class="h3 mb-0 text-gray-800">Calendar</h1>
+                <a href="{% url 'calendar' %}?{{ prev_month }}"
+                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-toggle-left" ></i>
+                    Previous Month</a>
+
+                <a href="{% url 'calendar' %}?{{ next_month }}"
+                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm btn right"><i
+                        class="fa fa-toggle-right"></i> Next Month</a>
+
+                <a href="{% url 'event_new' %}"
+                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fa fa-plus fa-sm "></i> New Event</a>
+            </div>
+
+            
+
+        </div>
+        
+        {{ calendar }}
+
+
+    </div> 
+</div>
+
+
+
+
+{% endblock %}
+

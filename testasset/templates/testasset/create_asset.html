@@ -32,13 +32,13 @@
                 <div class="col-12 col-sm-6">
                   <div class="form-group">
                     <label for="{{ form.asset_no.id_for_label }}">Asset No</label>
-                    {% render_field form.asset_no class="form-control" %}
+                    {% render_field form.asset_no class="form-control" %}                  
                     {{ form.asset_no.errors }}
                   </div>
                 </div>
                 <div class="col-12 col-sm-6">
                   <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}">PC Name</label>
+                    <label for="{{ form.name.id_for_label }}">Name</label>
                     {% render_field form.name class="form-control" %}
                     {{ form.name.errors }}
                   </div>
@@ -80,6 +80,7 @@
                     <label for="{{ form.warranty_start.id_for_label }}">Warranty Start</label>
                     {% render_field form.warranty_start class="form-control" %}
                     {{ form.warranty_start.errors }}
+                  
                   </div>
                 </div>
                 <div class="col-12 col-sm-6">
@@ -87,6 +88,7 @@
                     <label for="{{ form.warranty_end.id_for_label }}">Warranty End</label>
                     {% render_field form.warranty_end class="form-control" %}
                     {{ form.warranty_end.errors }}
+                   
                   </div>
                 </div>
                 <div class="col-12 col-sm-6">

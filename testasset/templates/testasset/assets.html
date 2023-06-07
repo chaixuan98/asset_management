@@ -8,16 +8,25 @@
 <div class="row">
     <div class="col-md">
         <div class="card card-body">
-
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            <div class=" align-items-center justify-content-between mb-2">
                 <h1 class="h3 mb-0 text-gray-800">Assets</h1>
                 <a href="{% url 'create_asset' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fa fa-plus fa-sm "></i> Create Asset</a>
+                <a class=" d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="scanner-link"
+                    href="{% url 'view-scanner' %}">Scan QR Code Asset</a>
+                <a href="{% url 'import_asset' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fa fas fa-file-import fa-sm "></i> Import from Excel</a>
             </div>
-         
-            <a class="nav-link" id="scanner-link" href="{% url 'view-scanner' %}" >Search Asset</a>
-        
-        </div>   
+
+        </div>
         <div class="card card-body">
             <div class="row">
                 <div class="col-xl-2 col-md-6 mb-4">
@@ -25,12 +34,13 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Assets</div>
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total
+                                    </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_assets}}</div>
                                 </div>
-                                <div class="col-auto">
+                                <!-- <div class="col-auto">
                                     <i class="fa fa-desktop fa-2x text-gray-300"></i>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -51,14 +61,15 @@
                         </div>
                     </div>
                 </div>
-            
+
 
                 <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Borrowed</div>
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Borrowed
+                                    </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_borrowed}}</div>
                                 </div>
                                 <!-- <div class="col-auto">
@@ -68,13 +79,14 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="col-xl-2 col-md-6 mb-4">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Disposed</div>
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Disposed
+                                    </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_disposed}}</div>
                                 </div>
                                 <!-- <div class="col-auto">
@@ -101,6 +113,22 @@
                     </div>
                 </div>
 
+                <div class="col-xl-2 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Warranty Expired</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{expired}}</div>
+                                </div>
+                                <!-- <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -113,7 +141,7 @@
                             <thead>
                                 <tr>
                                     <th>Asset No</th>
-                                    <th>PC Name</th>
+                                    <th>Name</th>
                                     <th>Brand</th>
                                     <th>Description</th>
                                     <th>Location</th>
@@ -125,7 +153,7 @@
                                     <th>Staff</th>
                                     <th></th>
                                     <th></th>
-                           
+
                                 </tr>
                             </thead>
                             <!-- <tfoot>
@@ -158,13 +186,15 @@
                                     <td>{{i.warranty_start}}</td>
                                     <td>{{i.warranty_end}}</td>
                                     <td>{{i.categories}}</td>
-                                    <td>{{i.staff}}</td>
+                                    <td><a href="/staff/{{i.staff}}">{{i.staff}}</a></td>
                                     <td><a class="btn btn-info btn-circle btn-sm" href="{% url 'update_asset' i.asset_no %}"><i class="fas fa-info-circle"></i></a></td>
-                                    <td><a class="bbtn btn-danger btn-circle btn-sm" href="{% url 'delete_asset' i.asset_no %}"><i class="fas fa-trash"></i></a></td>
+                                    <td><a class="btn btn-danger btn-circle btn-sm"
+                                            href="{% url 'delete_asset' i.asset_no %}"><i class="fas fa-trash"></i></a>
+                                    </td>
                                 </tr>
-                        
+
                                 {% endfor %}
-            
+
                             </tbody>
                         </table>
                     </div>
@@ -178,19 +208,17 @@
 
 
 <script>
-    (function() {
-        $('.nav-link').each(function() {
+    (function () {
+        $('.nav-link').each(function () {
             var current = '{{ request.get_full_path | urlencode }}'
             if (current == $(this).attr('href')) {
                 $(this).parent().addClass('active')
             }
         })
-        $('#scanner-link').click(function(){
+        $('#scanner-link').click(function () {
             uni_modal("QR Scanner", $(this).attr('data_url'))
         })
     })
 </script>
 
 {% endblock %}
-
-    

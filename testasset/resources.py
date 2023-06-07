@@ -1,5 +1,5 @@
 from import_export import resources
-from .models import Staff
+from .models import Staff, Asset
 
 
  
@@ -26,5 +26,14 @@ class StaffResource(resources.ModelResource):
     class Meta:
         model = Staff
         import_id_fields = ['employee_id']
+        # skip_unchanged = True
+        # clean_model_instances = True
+
+         
+class AssetResource(resources.ModelResource):
+
+    class Meta:
+        model = Asset
+        import_id_fields = ['asset_no']
         # skip_unchanged = True
         # clean_model_instances = True

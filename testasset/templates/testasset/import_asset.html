@@ -1,0 +1,43 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Import Assets</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'assets' %}">Assets</a></li>
+            <li class="breadcrumb-item active">Import Assets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <form enctype="multipart/form-data" method="post" >
+              {% csrf_token %}
+              <input type="file" name="asset_file"/>
+              <button type="submit">Upload</button>
+        
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+

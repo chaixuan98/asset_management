@@ -1,18 +1,34 @@
 from django.db import models
-
+import datetime
+from django.urls import reverse
 # Create your models here.
+
+    
+class Department(models.Model):
+        
+    name = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Staff(models.Model):
     
     GENDER = (('Male', 'Male'),
             ('Female', 'Female'),('Others', 'Others'),)
+            
+    LOCATION = (('PJ 5th', 'PJ 5th'),
+            ('PJ 7th', 'PJ 7th'),
+            ('PJ 11th', 'PJ 11th'),
+            ('PG', 'PG'),('IPH', 'IPH'),('SBN', 'SBN'),('MLK', 'MLK'),('BP', 'BP'),('JB', 'JB'),
+            ('KT', 'KT'),('Sabah', 'Sabah'),('SRK', 'SRK'),)            
     
-    DEPARTMENT = (('ACC & Finance', 'ACC & Finance'),
-                ('Admin', 'Admin'),
-                ('Collection', 'Collection'),
-                ('Credit', 'Credit'),('CS', 'CS'),('Marketing', 'Marketing'),('Mgmt', 'Mgmt'),
-                ('HR', 'HR'),
-                ('Mgmt', 'Mgmt'),('Planning', 'Planning'),('IT', 'IT'),)
+#     DEPARTMENT = (('ACC & Finance', 'ACC & Finance'),
+#                 ('Admin', 'Admin'),
+#                 ('Collection', 'Collection'),
+#                 ('Credit', 'Credit'),('CS', 'CS'),('Marketing', 'Marketing'),('Mgmt', 'Mgmt'),
+#                 ('HR', 'HR'),
+#                 ('Planning', 'Planning'),('IT', 'IT'),)
 
     STATUS = (('Active', 'Active'),
             ('Resign', 'Resign'),)  
@@ -21,27 +37,21 @@ class Staff(models.Model):
             ('Senior Executive', 'Senior Executive'), ('Team Lead', 'Team Lead'),('A.Manager', 'A.Manager'),
             ('Manager', 'Manager'), ('MD', 'MD'))                         
 
-    employee_id = models.CharField(max_length=10, null=True )
+    employee_id = models.CharField(max_length=10, default=None, blank= True, null=True, unique=True )
     name = models.CharField(max_length=200, null=True )
     gender =  models.CharField(max_length=200, null=True, choices= GENDER)
     joining_date = models.DateField(null=True)
     email = models.CharField(max_length=200, null=True)
-    department =  models.CharField(max_length=200, null=True, choices= DEPARTMENT)
+    department =  models.ForeignKey(Department, default=None, on_delete= models.PROTECT)
     position = models.CharField(max_length=200, null=True, choices= POSITION)
     description = models.CharField(max_length=200, null=True)
+    location = models.CharField(max_length=200, null=True, choices= LOCATION)
+    printer_pw = models.CharField(max_length=7, null=True)
     status = models.CharField(max_length=200, null=True, choices= STATUS, default=STATUS[0][0])
 
     def __str__(self):
         return self.employee_id
     
-    
-# class StaffResource(resources.ModelResource):
-
-#     class Meta:
-#         model = Staff
-#         import_id_fields = '__all__'
-#         # skip_unchanged = True
-#         # use_bulk = True
 
 class Categories(models.Model):
         
@@ -68,7 +78,7 @@ class Asset(models.Model):
             ('PG', 'PG'),('IPH', 'IPH'),('SBN', 'SBN'),('MLK', 'MLK'),('BP', 'BP'),('JB', 'JB'),
             ('KT', 'KT'),('Sabah', 'Sabah'),('SRK', 'SRK'),)            
 
-    asset_no = models.CharField(max_length=200 )
+    asset_no = models.CharField(max_length=10, default=None, blank= True, null=True, unique=True )
     name = models.CharField(max_length=200, null=True)
     brand = models.CharField(max_length=200, null=True)
     description = models.CharField(max_length=200, null=True)
@@ -78,8 +88,8 @@ class Asset(models.Model):
     warranty_start = models.DateField(null=True)     
     warranty_end = models.DateField(null=True)
 
-    categories = models.ForeignKey(Categories, null=True, on_delete = models.CASCADE)
-    staff = models.ForeignKey(Staff, null=True, on_delete= models.SET_NULL)
+    categories = models.ForeignKey(Categories, default=None, on_delete= models.PROTECT)
+    staff = models.ForeignKey(Staff, blank= True, null=True ,default=None, on_delete= models.SET_DEFAULT)
        
 
     def __str__(self):
@@ -99,3 +109,19 @@ class Asset(models.Model):
 
 #     def __str__(self):
 #         return self.asset.asset_no
+
+
+class Event(models.Model):
+    asset_no = models.CharField(max_length=100, default=None, blank= True, null=True,)
+    description = models.TextField(null=True)
+    warranty_start = models.DateField(null=True)
+    warranty_end = models.DateField(null=True)
+
+
+
+
+
+    @property
+    def get_html_url(self):
+        url = reverse('event_edit', args=(self.id,))
+        return f'<a href="{url}"> {self.asset_no} </a>'
