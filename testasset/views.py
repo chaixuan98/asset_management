@@ -3,7 +3,7 @@ from msilib.schema import ListView
 from pkgutil import get_data
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse,  HttpResponseRedirect
-from django.forms import inlineformset_factory
+from django.forms import formset_factory, inlineformset_factory
 from django.urls import reverse_lazy
 from .models import *
 from .forms import *
@@ -94,14 +94,11 @@ def home(request):
     categories = Categories.objects.all()
     department = Department.objects.all()
     
-  
-
     total_staffs = staffs.filter(status="Active").count()
     all_asset = assets.count()
     cat = categories.filter(asset__status="In Use").count()
     disposed = categories.filter(asset__status="Disposed").count()
     expired = assets.filter(warranty_end__lt = date.today()).count()
-
 
 
     dept_act  = Department.objects.filter(staff__status="Active").values('name').annotate(count_active=Count('staff')).values('name','count_active')
@@ -196,7 +193,7 @@ def createAsset(request):
 
             
             # HttpResponse("Asset has been added successfully")
-            messages.success(request, 'Sucessfully add asset.')
+            messages.success(request, 'Add Asset Sucessfully')
           
             return redirect('assets')
     else:
@@ -290,9 +287,6 @@ def staff(request, pk):
     categories = Categories.objects.all()
     assets = staff.asset_set.all()
     assets_count = assets.count()
-
-    # orders = staff.order_set.all()
-    # order_count = orders.count()
 
     context = {'staff':staff, 'categories':categories, 'assets':assets, 'assets_count':assets_count, 'department':department}
 
@@ -410,6 +404,21 @@ def event(request, pk=None):
     context = {'form':form, 'categories':categories, 'department':department}
     return render(request, 'testasset/event.html', context)
 
+
+@login_required(login_url='login')
+@admin_only
+def viewCategories(request):
+    staffs = Staff.objects.all()
+    department = Department.objects.all()
+    cat = Categories.objects.all()
+
+    total_categories = cat.count()
+
+    context = {'staffs':staffs, 'cat':cat,  'department':department, 'total_categories':total_categories }
+
+    return render(request, 'testasset/view_categories.html',context)
+
+
 @login_required(login_url='login')
 @admin_only
 def addCategories(request):
@@ -425,13 +434,60 @@ def addCategories(request):
          
             form.save()
             messages.success(request, 'Add Categories sucessfully.')
-            return redirect('/add_categories')
+            return redirect('/view_categories')
     else:
             form = AddCategoriesForm()
 
     context = {'form':form, 'categories':categories, 'department':department}
     return render(request, 'testasset/add_categories.html', context)
 
+@login_required(login_url='login')
+@admin_only
+def updateCategories(request,pk):
+
+    departments = Department.objects.all()
+    asset = Asset.objects.all()
+    cat = Categories.objects.get(name=pk)
+    form = CategoriesForm(instance=cat)
+
+    if request.method == 'POST':
+        form = CategoriesForm(request.POST, instance=cat)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Update Categories sucessfully.')
+            return redirect('/view_categories/')
+        
+    context = {'form':form, 'cat':cat, 'asset':asset, 'departments':departments}
+    return render(request, 'testasset/add_categories.html', context)
+
+@login_required(login_url='login')
+@admin_only
+def deleteCategories(request, pk):
+
+    categories = Categories.objects.get(name=pk)
+    
+    if request.method == 'POST':
+        categories.delete()
+        messages.success(request, 'Delete Categories sucessfully.')
+        return redirect('/view_categories/')
+
+    context = {'item':categories}
+    return render(request, 'testasset/delete_categories.html', context )
+
+
+@login_required(login_url='login')
+@admin_only
+def viewDepartment(request):
+    staffs = Staff.objects.all()
+    department = Department.objects.all()
+    categories = Categories.objects.all()
+
+    total_departments = department.count()
+
+    context = {'staffs':staffs, 'categories':categories,  'department':department, 'total_departments':total_departments }
+
+    return render(request, 'testasset/view_departments.html',context)
+    
 
 @login_required(login_url='login')
 @admin_only
@@ -448,13 +504,98 @@ def addDepartment(request):
          
             form.save()
             messages.success(request, 'Add Department sucessfully.')
-            return redirect('/dd_department')
+            return redirect('/view_department')
     else:
             form = AddDepartmentForm()
 
     context = {'form':form, 'categories':categories, 'department':department}
     return render(request, 'testasset/add_department.html', context)
 
+@login_required(login_url='login')
+@admin_only
+def updateDepartment(request,pk):
+
+    departments = Department.objects.get(name=pk)
+    asset = Asset.objects.all()
+    categories = Categories.objects.all()
+    form = DepartmentForm(instance=departments)
+
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST, instance=departments)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Update Department sucessfully.')
+            return redirect('/view_department/')
+        
+    context = {'form':form, 'categories':categories, 'asset':asset, 'departments':departments}
+    return render(request, 'testasset/add_department.html', context)
+
+@login_required(login_url='login')
+@admin_only
+def deleteDepartment(request, pk):
+
+    departments = Department.objects.get(name=pk)
+    
+    if request.method == 'POST':
+        departments.delete()
+        messages.success(request, 'Delete Department sucessfully.')
+        return redirect('/view_department/')
+
+    context = {'item':departments}
+    return render(request, 'testasset/delete_department.html', context )
+
+
+
+@login_required(login_url='login')
+@admin_only
+def predictAsset(request):
+
+    department = Department.objects.all()
+    categories = Categories.objects.all()
+
+    
+    # PredictFormSet = inlineformset_factory(Department, Predict, fields=('quantity','department',),extra=3)
+
+    # formset =  PredictFormSet(queryset=Department.objects.none()) #if queryset will no display exist asset, extra 3
+
+
+    # form =  PredictForm()
+
+    PredictFormSet = formset_factory(PredictForm, extra = 8)
+    formset = PredictFormSet(request.POST or None)
+
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        # form = PredictForm(request.POST)
+        formset =  PredictFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                # print(form)
+                # form.save()
+                print(form.cleaned_data)
+               
+            # return redirect('predict_asset')
+                if form["department"] == 'Collection':
+                    print('true')
+                    print(categories.filter(name='Laptop').count)
+                    # totalcat -= 1
+                    # print(totalcat)
+      
+            # for form in formset:
+                # print(formset.cleaned_data)
+
+                # if formset.cleaned_data.department == 'Collection':
+                #     totalcat = categories.filter(name='Laptop').count
+                #     totalcat -= 1
+                #     print(totalcat)
+        
+    # else:
+    #          PredictFormSet = formset_factory(PredictForm, extra = 8)
+
+
+
+    context = { 'formset':formset}
+    return render(request, 'testasset/predict_asset.html', context)
 
 
 

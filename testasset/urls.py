@@ -16,8 +16,15 @@ urlpatterns = [
     path('delete_asset/<str:pk>', views.deleteAsset, name='delete_asset'),
     path('import_asset/', views.importExcelAsset, name='import_asset'), 
 
+    path('view_categories/', views.viewCategories, name='view_categories'), 
     path('add_categories/', views.addCategories, name='add_categories'), 
+    path('update_categories/<str:pk>', views.updateCategories, name='update_categories'),
+    path('delete_categories/<str:pk>', views.deleteCategories, name='delete_categories'),
+
+    path('view_department/', views.viewDepartment, name='view_department'), 
     path('add_department/', views.addDepartment, name='add_department'), 
+    path('update_department/<str:pk>', views.updateDepartment, name='update_department'),
+    path('delete_department/<str:pk>', views.deleteDepartment, name='delete_department'),
 
     # path('view_details/<str:code>',views.view_details,name='view-details'),
     # path('view_details',views.view_details,name='scanned-code'),
@@ -33,6 +40,8 @@ urlpatterns = [
     path('calendar/', views.CalendarView.as_view(), name='calendar'),
     path('event/new/', views.event, name='event_new'),
     path('event/edit/<str:pk>', views.event, name='event_edit'),
+
+    path('predict_asset/', views.predictAsset, name='predict_asset'),
 
     # path('assign_asset/<str:pk>', views.assignAsset, name='assign_asset'),
     # path('update_assign_asset/<str:pk>', views.updateAssignAsset, name='update_assign_asset'),

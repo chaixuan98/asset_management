@@ -8,24 +8,10 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Add Department</h3>
-                    <!-- <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'all_staffs' %}">Staff</a></li>
-                        <li class="breadcrumb-item active">Staff Detail</li>
-                    </ul> -->
+                    <h3 class="page-title">Department Detail</h3>
+                   
                 </div>
             </div>
-        </div>
-
-        {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{message}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {% endfor %}
-
 
         <div class="row">
             <div class="col-sm-12">
@@ -45,6 +31,7 @@
 
 
                                 <div class="col-12">
+                                    <a class="btn btn-warning" href="{% url 'view_department' %}">Cancel</a>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                                 {% csrf_token %}

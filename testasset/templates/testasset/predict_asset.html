@@ -1,0 +1,89 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Predict Asset </h3>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+
+                            {{form}}
+                            <hr>
+
+                            {% endfor %}
+
+                            <input class="btn btn-danger" type="submit" name="Submit" value="Confirm">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="card ">
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <!-- <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th></th>
+                                
+                            </tr>
+                        </thead> -->
+                            <tbody>
+                                <tr>
+
+                                    <!-- Management data of formset -->
+                                    {{ formset.management_data }}
+
+
+                                    <!-- Security token -->
+                                    {% csrf_token %}
+
+                                    {{ formset.as_table}}
+
+
+
+
+
+
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                        <div class="col-12">
+                            <a class="btn btn-warning" href="{% url 'home' %}">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

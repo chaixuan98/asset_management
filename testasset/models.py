@@ -23,12 +23,6 @@ class Staff(models.Model):
             ('PG', 'PG'),('IPH', 'IPH'),('SBN', 'SBN'),('MLK', 'MLK'),('BP', 'BP'),('JB', 'JB'),
             ('KT', 'KT'),('Sabah', 'Sabah'),('SRK', 'SRK'),)            
     
-#     DEPARTMENT = (('ACC & Finance', 'ACC & Finance'),
-#                 ('Admin', 'Admin'),
-#                 ('Collection', 'Collection'),
-#                 ('Credit', 'Credit'),('CS', 'CS'),('Marketing', 'Marketing'),('Mgmt', 'Mgmt'),
-#                 ('HR', 'HR'),
-#                 ('Planning', 'Planning'),('IT', 'IT'),)
 
     STATUS = (('Active', 'Active'),
             ('Resign', 'Resign'),)  
@@ -62,10 +56,6 @@ class Categories(models.Model):
     
 
 class Asset(models.Model):
-#     CATEGORY = (('PC', 'PC'),
-#                 ('Monitor', 'Monitor'),
-#                 ('Headset', 'Headset'),
-#                 ('Laptop', 'Laptop'),)
 
     STATUS = (('In Use', 'In Use'),
             ('Vacant', 'Vacant'),
@@ -96,19 +86,16 @@ class Asset(models.Model):
         return self.asset_no
 
 
-# class Order(models.Model):
-#     STATUS = (('In Use', 'In Use'),
-#                 ('Vacant', 'Vacant'),
-#                 ('Disposed', 'Disposed'),
-#                 ('Borrowed', 'Borrowed'),)
+class Predict(models.Model):
 
-#     staff = models.ForeignKey(Staff, null=True, on_delete= models.SET_NULL)
-#     asset = models.ForeignKey(Asset, null=True, on_delete= models.SET_NULL)
-#     date_assigned = models.DateField(default=datetime.date.today)      
-#     status = models.CharField(max_length=200, null=True, choices= STATUS)
+    department =  models.ForeignKey(Department, null=True, default=None, on_delete= models.PROTECT)
+    quantity = models.PositiveIntegerField(default=0)
+    date_predict = models.DateField(default=datetime.date.today)      
+    
 
-#     def __str__(self):
-#         return self.asset.asset_no
+    def __str__(self):
+        return "predict-{}".format( self.date_predict)
+#     self.department.name
 
 
 class Event(models.Model):
@@ -116,9 +103,6 @@ class Event(models.Model):
     description = models.TextField(null=True)
     warranty_start = models.DateField(null=True)
     warranty_end = models.DateField(null=True)
-
-
-
 
 
     @property

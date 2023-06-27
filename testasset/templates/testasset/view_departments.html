@@ -1,0 +1,101 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{message}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+
+
+
+            <div class="align-items-center justify-content-between mb-2">
+                <h1 class="h3 mb-0 text-gray-800">Departments</h1>
+
+                <br>
+                <a href="{% url 'add_department'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fa fa-plus fa-sm "></i> Add Department</a>
+
+                <!-- <a href="{% url 'import_staff' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fa fas fa-file-import fa-sm "></i> Import from Excel</a> -->
+            </div>
+
+        </div>
+        <div class="card card-body">
+            <div class="row">
+                <div class="col-xl-2 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_departments}}</div>
+                                </div>
+                                <!-- <div class="col-auto">
+                                    <i class="fa fa-desktop fa-2x text-gray-300"></i>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for i in department %}
+                                <tr>
+
+
+                                    <td>{{i.name}}</td>
+                                  
+                                    <td><a class="btn btn-info btn-circle btn-sm"
+                                            href="{% url 'update_department' i.name %}"><i
+                                                class="fas fa-edit"></i></a></td>
+
+                                    <td><a class="btn btn-danger btn-circle btn-sm"
+                                            href="{% url 'delete_department' i.name %}"><i class="fas fa-trash"></i></a>
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'testasset/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-body">
+
+            <p>Are you sure want to delete department "{{item}}" ?</p>
+
+            <form action="{% url 'delete_department' item.name%}" method="POST">
+
+                {% csrf_token %}
+                <a class="btn btn-warning" href="{% url 'view_department' %}">Cancel</a>
+                <input class="btn btn-danger" type="submit" value="Confirm">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

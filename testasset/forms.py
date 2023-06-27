@@ -28,8 +28,19 @@ class AssetForm(forms.ModelForm):
             'warranty_start': forms.DateInput(
                 attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd'}),
             'warranty_end': forms.DateInput(attrs={'type': 'date', 'placeholder': 'yyyy-mm-dd'}),
-
         }
+
+
+class DepartmentForm(ModelForm):
+    class Meta:
+        model = Department
+        fields = '__all__'
+       
+class CategoriesForm(ModelForm):
+    class Meta:
+        model = Categories
+        fields = '__all__'      
+
 
     # def clean_asset_no(self):
     #     id = self.data['id'] if self.data['id'] != '' else 0
@@ -79,3 +90,18 @@ class AddDepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
         fields = '__all__'
+
+
+class PredictForm(forms.ModelForm):
+
+    class Meta:
+        model = Predict
+        fields =  ['department', 'quantity'] 
+        widgets = {
+            'quantity': forms.NumberInput(
+                # attrs={
+                #     'class': 'form-control'
+                #     }
+                ),
+
+        }
